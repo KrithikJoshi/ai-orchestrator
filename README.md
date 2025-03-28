@@ -29,37 +29,36 @@ This is a CLI-based AI orchestrator that uses a Large Language Model (LLM) to de
 
 # Navigate to each task and build
 
+```
 cd tasks/clean_data
 docker build -t clean_data .
-
+```
+```
 cd ../sentiment_analysis
 docker build -t sentiment_analysis .
+```
 
 ### Step 2: Set Your API Key
 
 # For Bash/Git Bash
-
+```
 export GROQ_API_KEY=your_groq_api_key_here
+```
 
 # For Windows CMD
-
+```
 set GROQ_API_KEY=your_groq_api_key_here
-
+```
 ### Step 3: Run the CLI
-
+```
 go run main.go run --prompt "I love the product but hate the shipping."
-
+```
 ### Example output
-
-Sending prompt to LLM: I love the product but hate the shipping.
-
-Tasks returned by LLM: [clean_data sentiment_analysis]
-
-Running task in container: clean_data
-
-Running task in container: sentiment_analysis
-
-Final Sentiment Output: Sentiment: Negative (score: -0.15)
+- Sending prompt to LLM: I love the product but hate the shipping.
+- Tasks returned by LLM: [clean_data sentiment_analysis]
+- Running task in container: clean_data
+- Running task in container: sentiment_analysis
+- Final Sentiment Output: Sentiment: Negative (score: -0.15)
 
 ## Architecture
 
