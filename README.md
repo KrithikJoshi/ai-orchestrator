@@ -18,30 +18,33 @@ This is a CLI-based AI orchestrator that uses a Large Language Model (LLM) to de
 ##  Project Structure
 
 ai-orchestrator/
-├── main.go
 ├── cmd/
-│ └── run.go
+│   ├── run.go                    # Cobra CLI logic
+│   └── root.go                   # Root command setup
 ├── internal/
-│ ├── llm/ # Calls Groq API
-│ └── docker/ # Runs Docker containers
+│   ├── docker/
+│   │   └── runner.go             # Runs Docker containers from Go
+│   └── llm/
+│       └── llm.go                # Calls Groq API and extracts task list
 ├── tasks/
-│ ├── clean_data/
-│ │ ├── clean.py
-│ │ ├── Dockerfile
-│ │ └── requirements.txt
-│ └── sentiment_analysis/
-│ | ├── sentiment.py
-│ | ├── Dockerfile
-│ | └── requirements.txt
-| ├── data/
-| │ ├── input.txt # Prompt is saved here
-| │ ├── output.txt # Cleaned text
-│ | └── sentiment.txt # Final sentiment result
-| ├── go.mod
-| └── README.md
+│   ├── clean_data/
+│   │   ├── clean.py              # Cleans the input text
+│   │   ├── Dockerfile
+│   │   └── requirements.txt
+│   └── sentiment_analysis/
+│       ├── sentiment.py          # Analyzes sentiment of cleaned text
+│       ├── Dockerfile
+│       └── requirements.txt
+├── data/
+│   ├── input.txt                 # User prompt gets saved here
+│   ├── output.txt                # Output from clean_data
+│   └── sentiment.txt             # Output from sentiment_analysis
+├── main.go                       # CLI entrypoint
+├── go.mod                        # Go module file
+├── go.sum                        # Go module dependencies
+├── architecture.png              # System design diagram
+└── README.md                     # You're reading it 🎉
 
-
----
 
 ##  Setup Instructions
 
