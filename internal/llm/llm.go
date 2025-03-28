@@ -24,46 +24,6 @@ type ChatResponse struct {
 	} `json:"choices"`
 }
 
-// func CallLLM(prompt string, apiKey string) ([]string, error) {
-// 	url := "https://api.groq.com/openai/v1/chat/completions"
-
-// 	reqBody := ChatRequest{
-// 		Model: "mixtral-8x7b-32768",
-// 		Messages: []MessageData{
-// 			{Role: "system", Content: "You are an AI orchestrator. Return task list like [\"clean_data\", \"sentiment_analysis\"]"},
-// 			{Role: "user", Content: prompt},
-// 		},
-// 	}
-
-// 	jsonData, _ := json.Marshal(reqBody)
-
-// 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(jsonData))
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	req.Header.Add("Authorization", "Bearer "+apiKey)
-// 	req.Header.Add("Content-Type", "application/json")
-
-// 	client := &http.Client{}
-// 	res, err := client.Do(req)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-// 	defer res.Body.Close()
-
-// 	bodyBytes, _ := io.ReadAll(res.Body)
-
-// 	var response ChatResponse
-// 	if err := json.Unmarshal(bodyBytes, &response); err != nil {
-// 		fmt.Println("Response Error:", string(bodyBytes))
-// 		return nil, err
-// 	}
-
-// 	var tasks []string
-// 	err = json.Unmarshal([]byte(response.Choices[0].Message.Content), &tasks)
-// 	return tasks, err
-// }
 func CallLLM(prompt string, apiKey string) ([]string, error) {
 	url := "https://api.groq.com/openai/v1/chat/completions"
 
@@ -75,7 +35,7 @@ You are an AI task planner, not an analyst.
 
 Given a user request, your job is to return ONLY a JSON array listing the containerized tasks to run.
 
-✅ Allowed task names are:
+ Allowed task names are:
 - "clean_data"
 - "sentiment_analysis"
 
@@ -124,21 +84,21 @@ If the request is unclear, return ["clean_data"]
 	var response ChatResponse
 	err = json.Unmarshal(bodyBytes, &response)
 	if err != nil {
-		fmt.Println("❌ Error parsing response JSON:", string(bodyBytes))
+		fmt.Println(" Error parsing response JSON:", string(bodyBytes))
 		return nil, err
 	}
 
-	// 🔐 Prevent crash: Check if Choices exist
+	
 	if len(response.Choices) == 0 {
-		fmt.Println("❌ LLM response had no choices. Raw response:", string(bodyBytes))
+		fmt.Println(" LLM response had no choices. Raw response:", string(bodyBytes))
 		return nil, fmt.Errorf("empty response from LLM")
 	}
 
-	// 🔓 Parse the task list safely
+	 
 	var tasks []string
 	err = json.Unmarshal([]byte(response.Choices[0].Message.Content), &tasks)
 	if err != nil {
-		fmt.Println("❌ Failed to parse LLM output as JSON array:", response.Choices[0].Message.Content)
+		fmt.Println(" Failed to parse LLM output as JSON array:", response.Choices[0].Message.Content)
 		return nil, err
 	}
 
